@@ -1,0 +1,87 @@
+.main{
+    width: 100%;
+    height: 80vh;
+    background: #fce3fe;
+    padding-top: 100px;
+  }
+  
+  
+  
+  .conta {
+    width: 580px;
+    height: 650px;
+    background: white;
+    margin: auto;
+    padding: 40px 60px;}
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .steps {
+      display: flex;
+      align-items: center;
+    }
+    
+    .step {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      margin-right: 8px;
+    }
+    
+    .step.active {
+      background-color: orange;
+      color: white;
+      border: none;
+    }
+    
+    .input-field {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(247, 247, 247, 0.1);
+  
+    }
+    
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+    }
+    
+    .button-up {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .button.return {
+      background-color: #ddd;
+    }
+    
+    .button.continue {
+      background-color: #d63384;
+      color: white;
+    }
+    .error {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+  }

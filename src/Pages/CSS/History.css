@@ -1,0 +1,44 @@
+.history {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .history-order {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+  
+  .history-product-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  
+  .history-order ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .history-order li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .clear-history-btn {
+    background-color: #ff4c3b;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  
+  .clear-history-btn:hover {
+    background-color: #d93b2a;
+  }

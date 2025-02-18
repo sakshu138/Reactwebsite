@@ -1,0 +1,111 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-left: 25%;
+    font-family: Arial, sans-serif;
+   background: white;
+  }
+  
+  .heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .shipping-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .option:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .option-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .option input {
+    transform: scale(1.2);
+  }
+  
+  .option-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .option-desc {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .option-price {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .summary {
+    background: #f9f9f9;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  
+  .summary-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+  }
+  
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 0;
+  }
+  
+  .checkout-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    
+  }
+  
+  .return-button, .continue-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .return-button {
+    background-color: #ccc;
+  }
+  
+  .continue-button {
+    background-color: #d63384;
+    color: white;
+  }
