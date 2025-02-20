@@ -1,33 +1,184 @@
-.profile-container {
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
+.dashboard-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100vh;
+  background: linear-gradient(180deg, #fde1ff, #e1ffea22 60%);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+  z-index: 1000;
+  border-radius: 10px 0 0 10px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
   
-  .edit-form input {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .save-button,
-  .edit-button {
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .save-button:hover,
-  .edit-button:hover {
-    background-color: #0056b3;
-  }
-  
+}
+
+.dashboard-container.collapsed {
+  width: 20%;
+  transform: translateX(100%);
+}
+
+.dashboard {
+  padding: 20px;
+  text-align: center;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #ff3b5c;
+  transition: 0.3s ease-in-out;
+}
+
+.remove-btn:hover {
+  color: #c70039;
+}
+
+.profile-image-container {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: 15px 70px;
+}
+
+.profile-image,
+.profile-images,
+.profile-placeholder {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #fde1ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #555;
+  border: 2px solid #ff3b5c;
+}
+
+
+.camera-button {
+  position: absolute;
+  bottom: 10px;
+  right: -5px;
+  width: 28px;
+  height: 28px;
+  background-color: #ff3b5c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease-in-out;
+}
+
+.camera-button:hover {
+  background-color: #c70039;
+}
+
+.edit-form {
+  margin-top: 20px;
+
+}
+
+.edit-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 20px 0px;
+  border-radius: 8px;
+  border: 1px solid #ff3b5c;
+  font-size: 16px;
+  outline: none;
+  background: #fde1ff;
+  color: #333;
+  transition: 0.3s ease-in-out;
+}
+
+.edit-form input:focus {
+  border-color: #ff3b5c;
+  background: #fff;
+}
+
+.save-button,
+.edit-button {
+  margin-top: 12px;
+  padding: 10px 15px;
+  background: #ff3b5c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+.save-button:hover,
+.edit-button:hover {
+  background: rgb(255, 64, 129);
+}
+
+
+.profile-details p {
+ 
+  font-size: 16px;
+  color: #333;
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.profile-details p strong {
+  color: #ff66b2;
+}
+
+.edit-button {
+  background: #ff66b2;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 15px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.edit-button:hover {
+  background: #ff3385;
+  transform: scale(1.05);
+}
+
+
+.no-data-text {
+  color: #ff3b5c;
+  font-style: italic;
+}
+
+.email {
+  font-size: 14px;
+  color:#000; 
+  text-align: center;
+  font-weight: 600;
+  font-size: 25px;
+  letter-spacing: 0.5px;
+  margin-right: 4px;
+  margin-bottom: 8%;
+}

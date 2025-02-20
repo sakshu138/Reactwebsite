@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
 import "./CSS/Payment.css"; 
 import UPI from '../Components/Assets/UPI.jpeg';
+import {  toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PaymentMethod = () => {
     const navigate = useNavigate();
@@ -26,19 +28,26 @@ const PaymentMethod = () => {
     useEffect(() => {
         localStorage.setItem("paymentDetails", JSON.stringify(cardDetails));
     }, [cardDetails]);
+
     const handleInputChange = (e) => {
         let { name, value } = e.target;  
         let newErrors = { ...errors };
     
-    
         if (name === "cardNumber") {
             value = value.replace(/\D/g, "").slice(0, 12).replace(/(\d{4})/g, "$1 ").trim();
+            if (value.replace(/\s/g, "").length === 12) {
+                delete newErrors.cardNumber; // Remove error if 12 digits are entered
+            } else {
+                newErrors.cardNumber = "Card number must be exactly 12 digits.";
+            }
         }
     
         if (name === "ccv") {
             value = value.replace(/\D/g, "").slice(0, 3);
+            if (value.length === 3) {
+                delete newErrors.ccv; // Remove error when 3 digits are entered
+            }
         }
-    
     
         if (name === "UPIid") {
             if (!value.includes("@")) {
@@ -58,8 +67,6 @@ const PaymentMethod = () => {
             value = value.replace(/[^A-Za-z\s]/g, ""); 
             if (value.trim() === "") {
                 newErrors.nameOnCard = "Cardholder name is required.";
-            } else if (!regex.test(value)) {
-                newErrors.nameOnCard = "Cardholder name must only contain alphabetic characters and spaces.";
             } else {
                 delete newErrors.nameOnCard;
             }
@@ -69,40 +76,46 @@ const PaymentMethod = () => {
         setErrors(newErrors);
     };
     
-    const handleSubmit = () => {
-        const existingHistory = JSON.parse(localStorage.getItem("purchaseHistory")) || [];
+   const handleSubmit = () => {
+    const existingHistory = JSON.parse(localStorage.getItem("purchaseHistory")) || [];
+    
+    if (existingHistory.length > 0) {
+        existingHistory[existingHistory.length - 1].status = "Completed";
+        existingHistory[existingHistory.length - 1].items.forEach(item => item.status = "Completed");
+    }
 
+    localStorage.setItem("purchaseHistory", JSON.stringify(existingHistory));
+
+    let newErrors = {};
+
+    if (paymentMethod === "credit") {
+        const numericCardNumber = cardDetails.cardNumber.replace(/\s/g, ""); // Remove spaces
+
+        if (!numericCardNumber.trim()) newErrors.cardNumber = "Card number is required.";
+        else if (numericCardNumber.length !== 12) newErrors.cardNumber = "Card number must be exactly 12 digits.";
         
-        if (existingHistory.length > 0) {
-            existingHistory[existingHistory.length - 1].status = "Completed";
-            existingHistory[existingHistory.length - 1].items.forEach(item => item.status = "Completed");
+        if (!cardDetails.nameOnCard.trim()) newErrors.nameOnCard = "Cardholder name is required.";
+        if (!cardDetails.ccv.trim()) newErrors.ccv = "CCV is required.";
+    }
+
+    if (paymentMethod === "UPI") {
+        if (!cardDetails.UPIid.trim() || !cardDetails.UPIid.includes("@")) {
+            newErrors.UPIid = "Valid UPI ID is required.";
         }
-      
-        
-        localStorage.setItem("purchaseHistory", JSON.stringify(existingHistory));
+    }
 
-        let newErrors = {};
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        toast.error("Please fix the errors before proceeding.", { autoClose: 2000 });
+        return;
+    }
 
-        if (paymentMethod === "credit") {
-            if (!cardDetails.cardNumber.trim()) newErrors.cardNumber = "Card number is required.";
-            if (!cardDetails.nameOnCard.trim()) newErrors.nameOnCard = "Cardholder name is required.";
-            if (!cardDetails.ccv.trim()) newErrors.ccv = "CCV is required.";
-        }
+    toast.success("Payment Successful!", { autoClose: 2000 });
 
-        if (paymentMethod === "UPI") {
-            if (!cardDetails.UPIid.trim() || !cardDetails.UPIid.includes("@")) {
-                newErrors.UPIid = "Valid UPI ID is required.";
-            }
-        }
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
-        }
-
-        console.log("Form Submitted", cardDetails);
-        navigate("/thankyou");  
-    };
+    setTimeout(() => {
+        navigate("/thankyou");
+    }, 2000);
+};
 
     return (
         <div className="method">

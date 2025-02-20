@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import "./ProductDisplay.css";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
@@ -7,32 +7,41 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-const ProductDisplay = (props) => {
-  const { product } = props;
+const ProductDisplay = ({ product }) => {
   const { addToCart } = useContext(ShopContext);
   const [selectedSize, setSelectedSize] = useState(null);
   const sizes = ["S", "M", "L", "XL", "XXL"];
   const navigate = useNavigate();
+  const toastShownRef = useRef(false); 
 
   const handleSizeClick = (size) => {
     setSelectedSize(size);
   };
 
+  const showToast = (type, message) => {
+    if (!toastShownRef.current) {
+      toastShownRef.current = true;
+      toast[type](message, { position: "top-right", autoClose: 2000 });
+      setTimeout(() => {
+        toastShownRef.current = false; 
+      }, 2000);
+    }
+  };
+
   const handleAddToCart = () => {
     if (!selectedSize) {
-      toast.warn("Please select a size!", { position: "top-right", autoClose: 2000 });
+      showToast("warn", "Please select a size!");
       return;
     }
     addToCart(product.id, selectedSize);
-    toast.success("Added to cart successfully!", { position: "top-right", autoClose: 2000 });
+    showToast("success", "Added to cart successfully!");
   };
 
   const handleBuyNow = () => {
     if (!selectedSize) {
-      toast.warn("Please select a size!", { position: "top-right", autoClose: 2000 });
+      showToast("warn", "Please select a size!");
       return;
     }
-
 
     const order = {
       date: new Date().toISOString(),
@@ -45,7 +54,7 @@ const ProductDisplay = (props) => {
           price: product.new_price,
           quantity: 1,
           size: selectedSize,
-          total: product.new_price, 
+          total: product.new_price,
           status: "Pending",
         },
       ],
@@ -55,7 +64,6 @@ const ProductDisplay = (props) => {
     existingHistory.push(order);
     localStorage.setItem("purchaseHistory", JSON.stringify(existingHistory));
 
-   
     navigate("/shippingmethod", {
       state: {
         productId: product.id,
@@ -71,23 +79,21 @@ const ProductDisplay = (props) => {
     <div className="productdisplay">
       <div className="productdisplay-left">
         <div className="productdisplay-img-list">
-          <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
+          {[...Array(4)].map((_, index) => (
+            <img key={index} src={product.image} alt={`Product view ${index + 1}`} />
+          ))}
         </div>
         <div className="productdisplay-img">
-          <img className="productdisplay-main-img" src={product.image} alt="" />
+          <img className="productdisplay-main-img" src={product.image} alt="Main product" />
         </div>
       </div>
       <div className="productdisplay-right">
         <h1>{product.name}</h1>
         <div className="productdisplay-right-star">
-          <img src={star_icon} alt="" />
-          <img src={star_icon} alt="" />
-          <img src={star_icon} alt="" />
-          <img src={star_icon} alt="" />
-          <img src={star_dull_icon} alt="" />
+          {[...Array(4)].map((_, index) => (
+            <img key={index} src={star_icon} alt="Star rating" />
+          ))}
+          <img src={star_dull_icon} alt="Dull star rating" />
           <p>(122)</p>
         </div>
         <div className="productdisplay-right-prices">
@@ -112,8 +118,8 @@ const ProductDisplay = (props) => {
           <button onClick={handleAddToCart}>ADD TO CART</button>
           <button onClick={handleBuyNow} style={{ fontSize: "16px" }}>BUY NOW</button>
         </div>
-        <p className="productdisplay-right-category"><span>Category :</span>Women , T-Shirt, Crop Top</p>
-        <p className="productdisplay-right-category"><span>Tags :</span>Modern, Latest</p>
+        <p className="productdisplay-right-category"><span>Category :</span> Women, T-Shirt, Crop Top</p>
+        <p className="productdisplay-right-category"><span>Tags :</span> Modern, Latest</p>
       </div>
     </div>
   );

@@ -21,26 +21,25 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    toast.dismiss(); // Dismiss previous toasts
 
     if (!name || !email || !password) {
-      toast.error("All fields are required");
+      toast.error("All fields are required", { toastId: "signupFields" });
       return;
     }
 
     if (!validatePassword(password)) {
-      toast.error(
-        "Password must be at least 6 characters long, contain one uppercase letter, and one special character."
-      );
+      toast.error("Password must be at least 6 characters, include one uppercase letter and one special character.", { toastId: "signupPassword" });
       return;
     }
 
     const userData = { name, email, password };
     dispatch(registerUser(userData));
 
-    // Store the email in localStorage
     localStorage.setItem("lastRegisteredEmail", email);
 
-    toast.success("Registration successful! Redirecting to login...");
+    toast.success("Registration successful! Redirecting to login...", { toastId: "signupSuccess" });
+
     setTimeout(() => {
       navigate("/login");
     }, 2000);
@@ -52,39 +51,18 @@ const Signup = () => {
         <h1>Sign Up</h1>
         <form onSubmit={handleSubmit}>
           <div className="loginsignup-fields">
-            <input
-              type="text"
-              placeholder="Full Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <input type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+            <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <div className="forget">
             <label>
-              <input
-                type="checkbox"
-                checked={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              /> Show Password
+              <input type="checkbox" checked={showPassword} onChange={() => setShowPassword(!showPassword)} /> Show Password
             </label>
           </div>
           <button type="submit">Sign Up</button>
         </form>
-        <p className="loginsignup-login">
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
+        <p className="loginsignup-login">Already have an account? <Link to="/login">Login</Link></p>
       </div>
     </div>
   );

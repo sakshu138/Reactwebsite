@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./CartItems.css";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/cart_cross_icon.png";
+import { toast } from "react-toastify";
 
 const CartItems = () => {
   const {
@@ -35,7 +36,7 @@ const CartItems = () => {
                 size: size,
                 quantity: quantity,
                 total: product.new_price * quantity,
-                status: "Pending", // Mark as "Pending" before payment
+                status: "Pending",
               }
             : null;
         })
@@ -47,26 +48,24 @@ const CartItems = () => {
           date: new Date().toISOString(),
           items: purchasedItems,
           total: getTotalCartAmount(),
-          status: "Pending", // Mark entire order as "Pending"
+          status: "Pending",
         };
   
         localStorage.setItem("purchaseHistory", JSON.stringify([...existingHistory, newPurchase]));
-        localStorage.setItem("cartItems", JSON.stringify(cartItems)); // Keep cart data
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
       }
   
       if (isLoggedIn || storedUser) {
-        navigate("/ShippingMethod"); // Move to Payment Page
+        navigate("/ShippingMethod");
       } else {
-        localStorage.setItem("redirectAfterLogin", "/paymentMethod");
-        alert("Please log in first!");
+        localStorage.setItem("redirectAfterLogin", "/payment");
+        toast.error("Please log in first!");
         navigate("/login");
       }
     } else {
-      alert("Your cart is empty!");
+      toast.warn("Your cart is empty!");
     }
   };
-  
-  
 
   return (
     <div className="cartitems">
@@ -163,4 +162,4 @@ const CartItems = () => {
   );
 };
 
-export default CartItems;
+export default CartItems;

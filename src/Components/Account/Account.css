@@ -1,6 +1,7 @@
 .profile-container {
   position: relative;
   display: inline-block;
+  
 }
 
 .profile-icon {
@@ -11,7 +12,7 @@
   position: absolute;
   top: 60px;
   right: 0;
-  background-color: #fff;
+  background-color: #ffff;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 150px;

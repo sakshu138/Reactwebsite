@@ -30,8 +30,10 @@ const Information = () => {
 
         if (name === "firstName" || name === "lastName" || name === "city") {
             if (!/^[A-Za-z]*$/.test(value)) {
+                toast.dismiss(); // Remove previous toast before showing a new one
                 toast.error(`${name.replace(/([A-Z])/g, " $1")} must contain only letters!`, {
                     position: "top-right",
+                    toastId: "nameError"
                 });
                 return;
             }
@@ -39,6 +41,8 @@ const Information = () => {
 
         if (name === "pinCode" || name === "phone") {
             if (!/^\d*$/.test(value)) return;
+            if (name === "phone" && value.length > 10) return;
+            if (name === "pinCode" && value.length > 6) return;
         }
 
         setFormData((prev) => {
@@ -49,42 +53,46 @@ const Information = () => {
     };
 
     const validateForm = () => {
+        toast.dismiss(); // Remove previous toast before showing a new one
+
         for (let key in formData) {
             if (!formData[key].trim()) {
-                toast.error("All fields are required!", {
-                    position: "top-right",
-                });
+                toast.error("All fields are required!", { position: "top-right", toastId: "fieldError" });
                 return false;
             }
-        }
+        
 
         if (!/^[A-Za-z]+$/.test(formData.firstName)) {
-            toast.error("First Name must contain only letters!", { position: "top-right" });
+            toast.error("First Name must contain only letters!", { position: "top-right", toastId: "firstNameError" });
             return false;
         }
 
         if (!/^[A-Za-z]+$/.test(formData.lastName)) {
-            toast.error("Last Name must contain only letters!", { position: "top-right" });
+            toast.error("Last Name must contain only letters!", { position: "top-right", toastId: "lastNameError" });
             return false;
         }
 
         if (!/^\d{6}$/.test(formData.pinCode)) {
-            toast.error("Pin Code must be exactly 6 digits!", { position: "top-right" });
+            toast.error("Pin Code must be exactly 6 digits!", { position: "top-right", toastId: "pinCodeError" });
             return false;
         }
 
         if (formData.phone.length !== 10) {
-            toast.error("Phone number must be 10 digits!", { position: "top-right" });
+            toast.error("Phone number must be 10 digits!", { position: "top-right", toastId: "phoneError" });
             return false;
         }
 
         return true;
     };
+}
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        toast.dismiss(); 
+
         if (validateForm()) {
-            toast.success("Information successfully saved!", { position: "top-right" });
+            localStorage.setItem("checkoutForm", JSON.stringify(formData));
+            toast.success("Information successfully saved!", { position: "top-right", toastId: "success" });
             setTimeout(() => navigate("/payment"), 1500);
         }
     };
