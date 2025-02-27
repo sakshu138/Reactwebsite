@@ -35,7 +35,7 @@ const Account = () => {
   return (
     <div className="profile-container">
       <div className="profile-icon" onClick={toggleDropdown}>
-        <FaUserCircle size={50} style={{marginTop:"35px"}} className="user-icon" />
+        <FaUserCircle size={50} style={{marginTop:"35px"}} className="user-icon" data-testid="profile-icon"/>
       </div>
 
       {isOpen && (

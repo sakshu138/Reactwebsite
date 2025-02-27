@@ -20,6 +20,7 @@ function Hero() {
 
   return (
     <div
+    data-testid="hero-container" 
       style={{background: "linear-gradient(180deg, #fde1ff 30%, #e1ffea22 60%)",
         backgroundAttachment:"fixed"
       }}

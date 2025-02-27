@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,7 +6,8 @@ import "./CSS/Information.css";
 
 const Information = () => {
     const navigate = useNavigate();
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+
 
     const [formData, setFormData] = useState({
         email: storedUser?.email || "",
@@ -19,11 +20,16 @@ const Information = () => {
     });
 
     useEffect(() => {
-        const savedData = JSON.parse(localStorage.getItem("checkoutForm"));
-        if (savedData) {
-            setFormData((prev) => ({ ...prev, ...savedData }));
+        try {
+            const savedData = localStorage.getItem("checkoutForm");
+            if (savedData) {
+                setFormData((prev) => ({ ...prev, ...JSON.parse(savedData) }));
+            }
+        } catch (error) {
+            console.error("Error parsing checkoutForm from localStorage", error);
         }
     }, []);
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -101,9 +107,9 @@ const Information = () => {
         <div className="main">
             <div className="container">
                 <h2>Contact Information</h2>
-                <input type="email" name="email" value={formData.email} readOnly className="input-fie" />
-
-                <input
+                <strong>EmailId :</strong>  <input type="email" name="email" value={formData.email} readOnly className="input-fie" />
+<br/>
+               <strong>Name :</strong> <input
                     type="text"
                     name="firstName"
                     value={formData.firstName}
@@ -112,7 +118,8 @@ const Information = () => {
                     className="input-field"
                 />
 
-                <input
+<br/>
+<strong>Lastname :</strong> <input
                     type="text"
                     name="lastName"
                     value={formData.lastName}
@@ -120,12 +127,12 @@ const Information = () => {
                     placeholder="Last Name"
                     className="input-field"
                 />
-
-                <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" className="input-field" />
-
-                <input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="City" className="input-field" />
-
-                <input
+<br/>
+<strong>Address :</strong><input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" className="input-field" />
+<br/>
+<strong>City :</strong><input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="City" className="input-field" />
+<br/>
+<strong>Pin :</strong><input
                     type="text"
                     name="pinCode"
                     value={formData.pinCode}
@@ -134,8 +141,8 @@ const Information = () => {
                     placeholder="Pin Code"
                     className="input-field"
                 />
-
-                <input
+<br/>
+<strong>Phone no. :</strong><input
                     type="text"
                     name="phone"
                     value={formData.phone}
