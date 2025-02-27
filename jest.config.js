@@ -14,12 +14,13 @@ export default  {
   
     collectCoverage: true, // Enables test coverage collection
     coverageDirectory: 'coverage', // Stores coverage reports in 'coverage/' folder
-    coverageReporters: ['html', 'lcov', 'text', 'json-summary'], // Generates various report formats
+    coverageReporters: ['json', 'lcov', 'text', 'html'], // Generates various report formats
   
     testMatch: [
-      '**/__tests__/**/*.test.{js,jsx,ts,tsx}', // Matches test files inside `__tests__`
+      '**/Test/**/*.{test,spec}.{js,jsx,ts,tsx}', // Matches test files inside `Test`
       '**/?(*.)+(spec|test).{js,jsx,ts,tsx}', // Matches standalone test files
     ],
+    
   
     setupFiles: ['<rootDir>/jest.setup.js'], // Setup file for additional configurations
     transformIgnorePatterns: ['/node_modules/'], // Avoids transforming node_modules
